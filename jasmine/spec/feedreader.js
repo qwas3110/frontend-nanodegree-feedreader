@@ -58,8 +58,8 @@ $(function() {
     /* TODO: Write a new test suite named "The menu" */
 
     describe('The menu',function () {
-        let body = document.getElementsByTagName("body");
-        let menu = document.getElementsByClassName('menu-icon-link');
+        let body = document.querySelector("body");
+        let menu = document.querySelector('.menu-icon-link');
 
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
@@ -88,7 +88,7 @@ $(function() {
     /* TODO: Write a new test suite named "Initial Entries" */
 
     describe("Initial Entries",function () {
-        let feed = document.getElementsByClassName('feed');
+        let feed = document.querySelector('.feed');
 
         beforeEach(function (done) {
             loadFeed(0,done);
@@ -100,19 +100,39 @@ $(function() {
         * Remember, loadFeed() is asynchronous so this test will require
         * the use of Jasmine's beforeEach and asynchronous done() function.
         */
-        it('should', function () {
-
+        it('a single .entry element within the .feed container. ', function () {
+            let entry = feed.querySelectorAll('.entry');
+            expect(entry.length).toBeGreaterThan(0);
         });
 
 
     })
 
-
-
     /* TODO: Write a new test suite named "New Feed Selection" */
 
+    describe('New Feed Selection', function () {
+        let file1,file2;
+
+        beforeEach(function (done) {
+            loadFeed(1,function () {
+                file1 = document.querySelector('.feed').innerText;
+                loadFeed(2,function () {
+                    file2 = document.querySelector('.feed').innerText;
+                    done();
+                });
+            });
+        });
+
         /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        * by the loadFeed function that the content actually changes.
+        * Remember, loadFeed() is asynchronous.
+        */
+
+        it('content actually changes', function (done) {
+            expect(file1).not.toBe(file2);
+            done();
+        });
+
+
+    })
 }());
